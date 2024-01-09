@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+
+\title{Gravitational Potential FEM Solution}
+\author{Artur Dwornik}
+\date{January 2024}
+\begin{document}
+
+\maketitle
+
+
+\[\frac{d^2 \phi}{d x^2} = 4 \pi G \rho(x)\]
+\[\Omega = [0; 3]\]
+\[\phi(0) = 5\]
+\[\phi(3) = 7\]
+\[\rho(x) = \begin{cases} 0 \text{ for } x \in [0, 1] \\ 1 \text{ for } x \in (1, 2] \\ 0 \text{ for } x \in (2, 3] \end{cases}\]
+\[\text{Assume } G = 1\]
+
+\[V = \{v(x) : v(0) = 0 \land v(3) = 0\}\]
+\[w \in V\]
+\[\phi = w + \tilde{\phi}\]
+\[\phi(0) = \tilde{\phi}(0) = 5\]
+\[\phi(3) = \tilde{\phi}(3) = 7\]
+\[\tilde{\phi} = \frac{2}{3} x + 5\]
+
+\[\int\limits_0^3\ v \phi'' dx = 4 \pi G \int\limits_0^3\ v \rho dx \]
+\[\left[v \phi'\right]_0^3 - \int\limits_0^3\ v' \phi' dx = 4 \pi G \int\limits_0^3\ v \rho dx\]
+\[v(3) \phi'(3) = 0\]
+\[v(0) \phi'(0) = 0\]
+\[- \int\limits_0^3\ v' \phi' dx = 4 \pi G \int\limits_0^3\ v \rho dx\]
+\[- \int\limits_0^3\ v' \phi' dx = 4 \pi G \int\limits_1^2\ v dx\]
+
+\[B(\phi, v) = - \int\limits_0^3\ v' \phi' dx\]
+\[L(v) = 4 \pi G \int\limits_1^2\ v dx\]
+
+\[B(\phi, v) = B(w + \tilde{\phi}, v) = B(w, v) + B(\tilde{\phi}, v)\]
+\[B(w, v) = L(v) - B(\tilde{\phi}, v)\]
+
+
+Lets choose N points on whole $\Omega$ with boundaries. Since Dirichlet conditions have been specified on both sides of the interval, the last and first test functions can be omitted. We define the test functions as follows:
+
+\[\text{Let h = } \frac{3}{N - 1} \text{ and } n \in \{1, 2, ..., (N - 2)\}\]
+Testing functions can be defined as:
+\[e_n(x) = \begin{cases} \frac{x}{h} - n + 1 \text{ for } x \in [h(n - 1), hn] \\ \frac{-x}{h} + n + 1 \text{ for } x \in [hn, h(n + 1)] \end{cases}\]
+
+\[
+    \begin{bmatrix}
+        B(e_1, e_1)         & B(e_2, e_1)       & \hdots    & B(e_{N-2}, e_1)       \\
+        B(e_1, e_2)         & B(e_2, e_2)       & \hdots    & B(e_{N-2}, e_2)       \\
+        \vdots              & \vdots            & \ddots    & \vdots                \\
+        B(e_1, e_{N-2})     & B(e_2, e_{N-2})   & \hdots    & B(e_{N-2}, e_{N-2})   \\ 
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+        \phi_1 \\
+        \phi_2 \\
+        \vdots \\
+        \phi_{N-2} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        L(e_1) - B(\tilde{\phi}, e_1)           \\
+        L(e_2) - B(\tilde{\phi}, e_2)           \\
+        \vdots                                  \\
+        L(e_{N-2}) - B(\tilde{\phi}, e_{N-2})   \\
+    \end{bmatrix}
+\]
+
+The $\phi$ function we are looking for is:
+
+\[\phi(x) = w + \tilde{\phi} = \phi_1 \cdot e_1 + \phi_2 \cdot e_2 + \hdots + \phi_{N-2} \cdot e_{N-2} + \frac{2}{3} x + 5 \]
+
+
+\end{document}
