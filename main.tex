@@ -1,10 +1,10 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
-\usepackage{amsmath}
 
 \title{Gravitational Potential FEM Solution}
 \author{Artur Dwornik}
 \date{January 2024}
+\usepackage{amsmath}
 \begin{document}
 
 \maketitle
@@ -38,10 +38,10 @@
 \[B(w, v) = L(v) - B(\tilde{\phi}, v)\]
 
 
-Lets choose N points on whole $\Omega$ with boundaries. Since Dirichlet conditions have been specified on both sides of the interval, the last and first test functions can be omitted. We define the test functions as follows:
+Lets choose N points on whole $\Omega$ with boundaries. Since Dirichlet conditions have been specified on both sides of the interval, the last and first test functions can be omitted. We define the test functions 
+$e_n(x)$ as follows:
 
 \[\text{Let h = } \frac{3}{N - 1} \text{ and } n \in \{1, 2, ..., (N - 2)\}\]
-Testing functions can be defined as:
 \[e_n(x) = \begin{cases} \frac{x}{h} - n + 1 \text{ for } x \in [h(n - 1), hn] \\ \frac{-x}{h} + n + 1 \text{ for } x \in [hn, h(n + 1)] \end{cases}\]
 
 \[
